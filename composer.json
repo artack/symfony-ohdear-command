@@ -1,0 +1,29 @@
+{
+    "name": "artack/symfony-ohdear-command",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Patrick Landolt",
+            "email": "patrick.landolt@artack.ch"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "symfony/console": "6.0",
+        "symfony/http-client": "6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Artack\\SymfonyOhdearCommand\\": "src/"
+        }
+    },
+    "scripts": {
+        "phpcs": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
+        "phpcs:fix": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --allow-risky=yes --ansi"
+    },
+    "scripts-descriptions": {
+        "phpcs": "Runs coding style test suite",
+        "phpcs:fix": "Runs coding style test suite and fixes it"
+    }
+}
