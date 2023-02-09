@@ -14,7 +14,7 @@ Developed by [artack](https://www.artack.ch) in Zurich, Switzerland.
 Features
 --------
 
-- Provides out of the box functinoality for Scheduled tasks
+- Provides out of the box functionality for Scheduled tasks
 
 
 Installation
