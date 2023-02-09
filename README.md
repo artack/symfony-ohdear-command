@@ -14,8 +14,11 @@ Developed by [artack](https://www.artack.ch) in Zurich, Switzerland.
 Features
 --------
 
-- Provides out of the box functionality for Scheduled tasks
-
+- Provides out of the box functionality for Scheduled tasks. That includes:
+  - Consumed memory of the command
+  - Runtime of the command
+  - Exit-Code of the command
+  - Failure Message in case of an exception
 
 Installation
 ------------
@@ -47,3 +50,5 @@ Instead of the `execute` method you need to use `doExecute` for the actual imple
 ```php
 protected function doExecute(InputInterface $input, OutputInterface $output): int {...}
 ```
+
+Now you can run the command with the option `--ohdear-uuid` and the uuid given by Oh Dear as a value. The uuid is part of the "ping URL" shown by Oh Dear.
