@@ -41,7 +41,7 @@ abstract class OhDearCommand extends Command
 
                 $body = [
                     'memory' => memory_get_peak_usage(true),
-                    'runtime' => $duration / 1000,
+                    'runtime' => $duration,
                 ];
 
                 if (isset($exitCode)) {
