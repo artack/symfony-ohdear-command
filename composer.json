@@ -1,5 +1,6 @@
 {
     "name": "artack/symfony-ohdear-command",
+    "description": "Provides out of the box functionality for Oh Dear Scheduled tasks.",
     "type": "library",
     "license": "MIT",
     "authors": [
