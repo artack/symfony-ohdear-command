@@ -45,13 +45,13 @@ jobs:
         run: composer update --prefer-lowest --prefer-dist --no-progress --no-scripts --no-interaction
 
       - name: Composer Tools PHPCS Install Dependencies
-        run: composer install --working-dir tools/php-cs-fixer --prefer-dist --no-progress --no-scripts --no-interaction
+        run: composer update --working-dir tools/php-cs-fixer --prefer-dist --no-progress --no-scripts --no-interaction
 
       - name: PHPCS Run
         run: composer phpcs
 
       - name: Composer Tools PHPSTAN Install Dependencies
-        run: composer install --working-dir tools/phpstan --prefer-dist --no-progress --no-scripts --no-interaction
+        run: composer update --working-dir tools/phpstan --prefer-dist --no-progress --no-scripts --no-interaction
 
       - name: PHPSTAN Run
         run: composer phpstan
