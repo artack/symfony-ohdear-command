@@ -12,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
+use function is_string;
+
 abstract class OhDearCommand extends Command
 {
     protected function configure(): void
@@ -25,7 +27,7 @@ abstract class OhDearCommand extends Command
     {
         $ohdearUuid = $input->getOption('ohdear-uuid');
 
-        if ($ohdearUuid) {
+        if (is_string($ohdearUuid) && '' !== $ohdearUuid) {
             $start = microtime(true);
 
             try {
