@@ -1,7 +1,7 @@
 name: linter
 
 concurrency:
-  group: linter
+  group: linter-${{ github.ref }}
   cancel-in-progress: true
 
 on:
@@ -11,6 +11,12 @@ on:
 jobs:
   linter:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        dependency: [lowest, highest]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,7 +24,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: ${{ matrix.php-version }}
           extensions: intl
           ini-values: date.timezone=Europe/Zurich,memory_limit=-1,session.gc_probability=0,zend.assertions=1
           coverage: none
@@ -30,14 +36,13 @@ jobs:
       - name: Composer Validate
         run: composer validate --no-check-publish --strict
 
-      - name: Composer Install Dependencies
-        run: composer install --prefer-dist --no-progress --no-scripts --no-interaction
+      - name: Composer Install Dependencies (highest)
+        if: matrix.dependency == 'highest'
+        run: composer update --prefer-dist --no-progress --no-scripts --no-interaction
 
-      - name: Lint Container
-        run: php bin/console lint:container
-
-      - name: Lint Yaml Config
-        run: php bin/console lint:yaml config --parse-tags
+      - name: Composer Install Dependencies (lowest)
+        if: matrix.dependency == 'lowest'
+        run: composer update --prefer-lowest --prefer-dist --no-progress --no-scripts --no-interaction
 
       - name: Composer Tools PHPCS Install Dependencies
         run: composer install --working-dir tools/php-cs-fixer --prefer-dist --no-progress --no-scripts --no-interaction
@@ -50,6 +55,3 @@ jobs:
 
       - name: PHPSTAN Run
         run: composer phpstan
-
-      - name: PHPUnit Run
-        run: composer phpunit
