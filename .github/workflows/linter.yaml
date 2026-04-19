@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        php-version: ['8.1', '8.2', '8.3', '8.4', '8.5']
         dependency: [lowest, highest]
 
     steps:
@@ -44,14 +44,21 @@ jobs:
         if: matrix.dependency == 'lowest'
         run: composer update --prefer-lowest --prefer-dist --no-progress --no-scripts --no-interaction
 
+      - name: PHPUnit Run
+        run: composer phpunit
+
       - name: Composer Tools PHPCS Install Dependencies
+        if: matrix.php-version == '8.5' && matrix.dependency == 'highest'
         run: composer update --working-dir tools/php-cs-fixer --prefer-dist --no-progress --no-scripts --no-interaction
 
       - name: PHPCS Run
+        if: matrix.php-version == '8.5' && matrix.dependency == 'highest'
         run: composer phpcs
 
       - name: Composer Tools PHPSTAN Install Dependencies
+        if: matrix.php-version == '8.5' && matrix.dependency == 'highest'
         run: composer update --working-dir tools/phpstan --prefer-dist --no-progress --no-scripts --no-interaction
 
       - name: PHPSTAN Run
+        if: matrix.php-version == '8.5' && matrix.dependency == 'highest'
         run: composer phpstan
