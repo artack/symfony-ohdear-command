@@ -1,0 +1,55 @@
+name: linter
+
+concurrency:
+  group: linter
+  cancel-in-progress: true
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: intl
+          ini-values: date.timezone=Europe/Zurich,memory_limit=-1,session.gc_probability=0,zend.assertions=1
+          coverage: none
+          tools: composer
+
+      - name: PHP version
+        run: php -v
+
+      - name: Composer Validate
+        run: composer validate --no-check-publish --strict
+
+      - name: Composer Install Dependencies
+        run: composer install --prefer-dist --no-progress --no-scripts --no-interaction
+
+      - name: Lint Container
+        run: php bin/console lint:container
+
+      - name: Lint Yaml Config
+        run: php bin/console lint:yaml config --parse-tags
+
+      - name: Composer Tools PHPCS Install Dependencies
+        run: composer install --working-dir tools/php-cs-fixer --prefer-dist --no-progress --no-scripts --no-interaction
+
+      - name: PHPCS Run
+        run: composer phpcs
+
+      - name: Composer Tools PHPSTAN Install Dependencies
+        run: composer install --working-dir tools/phpstan --prefer-dist --no-progress --no-scripts --no-interaction
+
+      - name: PHPSTAN Run
+        run: composer phpstan
+
+      - name: PHPUnit Run
+        run: composer phpunit

@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "symfony/console": "^6.0",
-        "symfony/http-client": "^6.0"
+        "symfony/console": "^6.0|^7.0|^8.0",
+        "symfony/http-client": "^6.0|^7.0|^8.0"
     },
     "autoload": {
         "psr-4": {
@@ -20,11 +20,20 @@
         }
     },
     "scripts": {
+        "update:tools": "composer update -d tools/php-cs-fixer",
         "phpcs": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
-        "phpcs:fix": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --allow-risky=yes --ansi"
+        "phpcs:fix": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --allow-risky=yes --ansi",
+        "phpstan": "tools/phpstan/vendor/bin/phpstan analyse -c phpstan.neon --ansi",
+        "test": [
+            "@phpcs",
+            "@phpstan"
+        ]
     },
     "scripts-descriptions": {
+        "update:tools": "Updates all tools",
         "phpcs": "Runs coding style test suite",
-        "phpcs:fix": "Runs coding style test suite and fixes it"
+        "phpcs:fix": "Runs coding style test suite and fixes it",
+        "phpstan": "Runs phpstan",
+        "test": "Runs all tests"
     }
 }
