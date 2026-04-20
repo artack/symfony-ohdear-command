@@ -1,0 +1,10 @@
+{
+    "require": {
+        "phpstan/phpstan": "^2"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    }
+}
